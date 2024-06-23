@@ -4,7 +4,9 @@ import streamlit as st
 
 ## page configuration settings
 st.set_page_config(
-page_title="Home", page_icon="🏠", layout="wide"
+    page_title='Data',
+    page_icon='🏠',
+    layout='wide'
 )
 
 
