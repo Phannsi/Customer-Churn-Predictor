@@ -1,0 +1,5 @@
+gender,SeniorCitizen,Partner,Dependents,tenure,PhoneService,MultipleLines,InternetService,OnlineSecurity,OnlineBackup,DeviceProtection,TechSupport,StreamingTV,StreamingMovies,Contract,PaperlessBilling,PaymentMethod,MonthlyCharges,TotalCharges,PredictionTime,ModelUsed
+Male,0,0,0,0,0,No,DSL,No,No,No,No,No,No,Month-to-month,0,Electronic check,0.0,0.0,2024-06-23,Gradient Boost
+Female,0,0,0,0,0,No,DSL,No,No,No,No,No,No,Month-to-month,0,Electronic check,0.0,0.0,2024-06-23,Gradient Boost
+Male,0,0,0,0,0,No,DSL,No,No,No,No,No,No,Month-to-month,0,Electronic check,0.0,0.0,2024-06-23,Logistic Regression
+Male,0,0,0,0,0,No,DSL,No,No,No,No,No,No,Month-to-month,0,Electronic check,0.0,0.0,2024-06-23,Support Vector
