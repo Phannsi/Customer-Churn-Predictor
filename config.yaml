@@ -1,0 +1,21 @@
+credentials:
+  usernames:
+    phannsi:
+      email: fancythird@yahoo.com
+      failed_login_attempts: 0 # Will be managed automatically
+      logged_in: False # Will be managed automatically
+      name: Phannsi Third Ezekiel
+      password: phannsi # Will be hashed automatically
+    guest:
+      email: fancythird@yahoo.com
+      failed_login_attempts: 0 # Will be managed automatically
+      logged_in: False # Will be managed automatically
+      name: Guest Account
+      password: Guest123 # Will be hashed automatically
+cookie:
+  expiry_days: 0
+  key: login # Must be string
+  name: login_cookie
+pre-authorized:
+  emails:
+  - fancythird@yahoo.com
