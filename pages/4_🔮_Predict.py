@@ -5,7 +5,7 @@ import datetime
 import os
 
 st.set_page_config(
-    page_title='Predict Page',
+    page_title='Predict',
     page_icon='🔮',
     layout='wide'
 )

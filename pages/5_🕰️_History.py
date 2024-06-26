@@ -7,7 +7,7 @@ import os
 
 
 st.set_page_config(
-page_title="Prediction History!",
+page_title="Prediction History",
 page_icon="🕰️",
 layout="wide",
 )
