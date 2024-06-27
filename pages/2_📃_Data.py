@@ -73,4 +73,5 @@ def data_page():
         display_visualizations(data, selected_num_cols)
 
 if __name__ == "__main__":
+    
     data_page()
