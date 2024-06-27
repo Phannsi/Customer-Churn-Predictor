@@ -141,17 +141,19 @@ def make_prediction(pipeline, encoder):
              device_protection, tech_support, streaming_tv, streaming_movies,
              contract, paperless_billing, payment_method, monthly_charges, total_charges]]
 
+
     # Create a DataFrame
     df = pd.DataFrame(data, columns=columns)
-
-    df['PredictionTime'] = datetime.date.today()
-    df['ModelUsed'] = st.session_state['selected_model']
-    df['Prediction'] = st.session_state['prediction']
-
+    
     # Make prediction
     pred = pipeline.predict(df)
     pred = int(pred[0])
     prediction = encoder.inverse_transform([pred])
+
+
+    df['PredictionTime'] = datetime.datetime.now().strftime('%m-%d-%Y %H:%M:%S')
+    df['ModelUsed'] = st.session_state['selected_model']
+    df['Churn'] = prediction
 
     # Get probabilities
     probability = pipeline.predict_proba(df)

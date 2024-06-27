@@ -10,7 +10,7 @@ st.set_page_config(
     layout='wide'
 )
 
-st.title('Churn Prediction')
+st.title('Bulk Churn Prediction')
 
 def load_Logistic_regression_pipeline():
     pipeline = joblib.load("./models/logistic_reg_pipeline.joblib")
@@ -68,8 +68,13 @@ if 'prediction' not in st.session_state:
 if 'probability' not in st.session_state:
     st.session_state['probability'] = None
 
+if 'uploaded_file' not in st.session_state:
+    st.session_state['uploaded_file'] = None
+
 def csv_form():
-    st.write("Please upload your table in csv format only, Kindly ensure it contain all the necessary columns")
+    pipeline, encoder = select_model()
+
+    st.write("Please upload your table in CSV format. Kindly ensure it contains all the necessary columns.")
 
     # Display file uploader
     uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
@@ -78,81 +83,39 @@ def csv_form():
         # Read the uploaded file as a pandas DataFrame
         df = pd.read_csv(uploaded_file)
 
-        # Display the DataFrame
-        st.dataframe(df)
+        # Make predictions
+        predictions = []
+        for index, row in df.iterrows():
+            pred = pipeline.predict([row])
+            pred = pred[0]
+            prediction = encoder.inverse_transform([pred])
+            predictions.append(prediction[0])
 
+            # Assign prediction result to the specific cell
+            df.at[index, 'PredictionTime'] = datetime.datetime.now().strftime('%m-%d-%Y %H:%M:%S')
+            df.at[index, 'ModelUsed'] = st.session_state['selected_model']
+            df.at[index, 'Churn'] = prediction[0]
 
-def make_prediction(pipeline, encoder):
-    gender = st.session_state['gender']
-    senior_citizen = st.session_state['SeniorCitizen']
-    partner = st.session_state['Partner']
-    dependents = st.session_state['Dependents']
-    tenure = st.session_state['tenure']
-    phone_service = st.session_state['PhoneService']
-    multiple_lines = st.session_state['MultipleLines']
-    internet_service = st.session_state['InternetService']
-    online_security = st.session_state['OnlineSecurity']
-    online_backup = st.session_state['OnlineBackup']
-    device_protection = st.session_state['DeviceProtection']
-    tech_support = st.session_state['TechSupport']
-    streaming_tv = st.session_state['StreamingTV']
-    streaming_movies = st.session_state['StreamingMovies']
-    contract = st.session_state['Contract']
-    paperless_billing = st.session_state['PaperlessBilling']
-    payment_method = st.session_state['PaymentMethod']
-    monthly_charges = st.session_state['MonthlyCharges']
-    total_charges = st.session_state['TotalCharges']
+        # Get probabilities
+        probability = pipeline.predict_proba(df)
 
-    columns = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure', 'PhoneService',
-               'MultipleLines', 'InternetService', 'OnlineSecurity', 'OnlineBackup',
-               'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies',
-               'Contract', 'PaperlessBilling', 'PaymentMethod', 'MonthlyCharges', 'TotalCharges']
+        # Write to CSV
+        df.to_csv('./data/history.csv', mode='a', header=not os.path.exists('./data/bulk_history.csv'), index=False)
 
-    data = [[gender, senior_citizen, partner, dependents, tenure, phone_service,
-             multiple_lines, internet_service, online_security, online_backup,
-             device_protection, tech_support, streaming_tv, streaming_movies,
-             contract, paperless_billing, payment_method, monthly_charges, total_charges]]
-
-    # Create a DataFrame
-    df = pd.DataFrame(data, columns=columns)
-
-    df['PredictionTime'] = datetime.date.today()
-    df['ModelUsed'] = st.session_state['selected_model']
-    df['Prediction'] = st.session_state['prediction']
-
-    # Make prediction
-    pred = pipeline.predict(df)
-    pred = int(pred[0])
-    prediction = encoder.inverse_transform([pred])
-
-    # Get probabilities
-    probability = pipeline.predict_proba(df)
-
-    # Write to CSV
-    df.to_csv('./data/history.csv', mode='a', header=not os.path.exists('./data/history.csv'), index=False)
-
-    # Updating state
-    st.session_state['prediction'] = prediction
-    st.session_state['probability'] = probability
-
-    return prediction, probability
+        # Update session state
+        st.session_state['prediction'] = predictions
+        st.session_state['probability'] = probability
+        st.session_state['df'] = df
 
 
 if __name__ == "__main__":
+    csv_form()
 
-    st.info('Please ensure your table has the following columns and headers /n ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure', 'PhoneService',
-               'MultipleLines', 'InternetService', 'OnlineSecurity', 'OnlineBackup',
-               'DeviceProtection', 'TechSupport', 'StreamingTV', 'StreamingMovies',
-               'Contract', 'PaperlessBilling', 'PaymentMethod', 'MonthlyCharges', 'TotalCharges']')
-
+    #df = st.session_state['df']
     prediction = st.session_state['prediction']
     probability = st.session_state['probability']
 
-    if prediction is None:
-        st.markdown("### The predicted outcome will show here")
-    elif prediction == "Yes":
-        probability_of_yes = probability[0][1] * 100
-        st.markdown(f"### The customer will cease using your services with a probability of {round(probability_of_yes, 2)}%")
+    if df is None:
+        st.write("Please upload a CSV file to make a prediction.")
     else:
-        probability_of_no = probability[0][0] * 100
-        st.markdown(f"### customer will continue using your services with a probability of {round(probability_of_no, 2)}%")
+        st.write(st.session_state['df'])
