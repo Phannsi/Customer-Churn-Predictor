@@ -68,7 +68,18 @@ if 'prediction' not in st.session_state:
 if 'probability' not in st.session_state:
     st.session_state['probability'] = None
 
+def csv_form():
+    st.write("Please upload your table in csv format only, Kindly ensure it contain all the necessary columns")
 
+    # Display file uploader
+    uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
+
+    if uploaded_file is not None:
+        # Read the uploaded file as a pandas DataFrame
+        df = pd.read_csv(uploaded_file)
+
+        # Display the DataFrame
+        st.dataframe(df)
 
 
 def make_prediction(pipeline, encoder):
