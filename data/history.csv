@@ -2,3 +2,4 @@ gender,SeniorCitizen,Partner,Dependents,tenure,PhoneService,MultipleLines,Intern
 Male,0,Yes,Yes,0,Yes,Yes,DSL,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,0.0,0.0,2024-06-26,Gradient Boost,
 Female,0,Yes,Yes,0,Yes,Yes,DSL,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,0.0,0.0,2024-06-26,Gradient Boost,No
 Female,0,Yes,Yes,0,Yes,Yes,DSL,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,500.0,800000000.0,2024-06-26,Gradient Boost,No
+Male,0,Yes,Yes,0,Yes,Yes,DSL,No,No,No,No,No,No,Month-to-month,Yes,Electronic check,0.0,0.0,2024-06-28,Logistic Regression,
