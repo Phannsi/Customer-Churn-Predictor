@@ -59,20 +59,9 @@ if st.session_state['authentication_status'] == True:
 
     # Sample text for the sections
     home_text = "Welcome to the Telco Customer churn predictor application. Here, you can analyze customer churn data to predict churn."
-    how_to_run_text = "To run the application, simply navigate through the sidebar and select the dataset you wish to analyze. Follow the instructions on each page."
+    how_to_run_text = "To run the application, simply login and navigate through the sidebar. Follow the instructions on each page to run application effectively."
 
-    key_features_text = """
-    - Data Visualization
-    - Predictive Analytics
-    - Customizable Reports
-    - Interactive Dashboards
-    """
-    user_benefits_text = """
-    - Understand employee attrition trends
-    - Identify key factors affecting attrition
-    - Make data-driven decisions
-    - Improve employee retention strategies
-    """
+
     def logo():
         col1, col2, col3 = st.columns(3)
 
@@ -85,61 +74,52 @@ if st.session_state['authentication_status'] == True:
         with col3:
             pass
 
-    # Layout with columns
-    def home_intro_text():
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.subheader("Customer Churn Insight")
-            st.write(home_text)
-
-        with col2:
-            # Key features section
-            st.subheader("Key Features")
-            st.write(key_features_text)
-        
-        with col3:
-            # User benefits section
-            st.subheader("User Benefits")
-            st.write(user_benefits_text)
-
-        
-        st.subheader("How to Run Application")
-        st.write(how_to_run_text)
-
 
     def display_home_body():
         col1, col2 = st.columns(2)
 
         with col1:
-            st.subheader("Key Features")
-            st.markdown(
-                """     
-                        - **A Data Page:** explore the content of proprietory data loaded in real-time form the remote server
-                        - **A Dashboard Page:** presents visualizations on both the exploratory data and the KPIs
-                        - **A Predict Page:** predict customer churn using a selected model of choice
-                        - **A History Page:** contains saved predictions for further analysis later. Users can view the history of their prediction input values
-                """
-            )
+            with st.container(border=True):
+                st.subheader("Key Features")
+                st.markdown(
+                    """     
+                            - **A Data Page:** explore the content of proprietory data loaded
+                            - **A Dashboard Page:** presents visualizations on both the exploratory data and the KPIs, you have the option of selection your own columns to visualise
+                            - **A Predict Page:** predict customer churn using a selected model of choice
+                            - **A Bulk predict page:** allows you to make several predictions at once when you upload in csv format
+                            - **A History Page:** contains saved predictions for further analysis later. Users can view the history of their prediction there
+                    """
+                )
 
         with col2:
-            st.subheader("User Benefits")
-            st.markdown(
-                """
-                        - Make data-driven decisions by leveraging the power of predictive analytics
-                        - Free to Select from a list classification models
-                        - Simple and straight forward. 
-                        """
-            )
-            st.subheader("Instruction")
-            st.markdown(
-                """
-                        - Use the side bar to navigate the pages of the App
-                        - Follow instructions on each page to interact with the App
-                        """
-            )
+            with st.container(border=True):
+                st.subheader("User Benefits")
+                st.markdown(
+                    """
+                            - Make data-driven decisions by leveraging the power of predictive analytics
+                            - Free to Select from a list classification models
+                            - Simple and straight forward. 
+                            """
+                )
+                st.subheader("Instruction")
+                st.markdown(
+                    """
+                            - Use the side bar to navigate the pages of the App
+                            - Follow instructions on each page to interact with the App effectively
+                            """
+                )
 
+        # Center-align text using CSS styles
+        centered_text1 = f"<p style='text-align: center;'>This application was built as a data Science project for Azubi Africa!</p>"
+        centered_text2 = f"<p style='text-align: center;'>Copyright © 2024!</p>"
+        
+
+        
+        st.write(centered_text1, unsafe_allow_html=True)
+        
+        st.write(centered_text2, unsafe_allow_html=True)
+       
+        
 
     def main():
         
@@ -148,8 +128,6 @@ if st.session_state['authentication_status'] == True:
         display_home_title()
 
         logo()
-
-        home_intro_text()
 
         display_home_body()
 
